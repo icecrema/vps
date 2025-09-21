@@ -16,3 +16,8 @@ EXPOSE 6080
 # and start tmate session
 CMD python3 -m http.server 6080 & \
     tmate -F
+
+RUN apt update && apt install -y nginx
+
+# Avvia Nginx direttamente (senza systemctl)
+CMD ["nginx", "-g", "daemon off;"]
