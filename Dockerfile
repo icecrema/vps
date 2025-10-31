@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Installa tutte le dipendenze necessarie
+# Installa tutte le dipendenze necessarie per compilare tmate
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
@@ -14,7 +14,10 @@ RUN apt-get update && \
     cmake \
     curl \
     automake \
-    autoconf && \
+    autoconf \
+    libtool \
+    gettext \
+    bison && \
     git clone https://github.com/tmate-io/tmate.git /tmate && \
     cd /tmate && \
     ./autogen.sh && \
