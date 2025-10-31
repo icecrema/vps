@@ -1,23 +1,17 @@
-FROM ubuntu:22.04
- 
-# Install dependencies
-RUN apt update && \
-    apt install -y software-properties-common wget curl git openssh-client tmate python3 && \
-    apt clean
- 
-# Create a dummy index page to keep the service alive
-RUN mkdir -p /app && echo "Tmate Session Running..." > /app/index.html
-WORKDIR /app
- 
-# Expose a fake web port to trick Railway into keeping container alive
-EXPOSE 6080
- 
-# Start a dummy Python web server to keep Railway service active
-# and start tmate session
-CMD python3 -m http.server 6080 & \
-    tmate -F
+FROM ubuntu:20.04
 
-RUN apt update && apt install -y nginx
+LABEL maintainer="tuo_nome <tuo@email.com>"
 
-# Avvia Nginx direttamente (senza systemctl)
-CMD ["nginx", "-g", "daemon off;"]
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Aggiorna e installa tmate
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    apt-add-repository -y ppa:tmate.io/archive && \
+    apt-get update && \
+    apt-get install -y tmate && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Avvia tmate in modalità server
+CMD ["tmate", "-F"]
