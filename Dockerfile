@@ -2,13 +2,13 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Installa le librerie necessarie
+# Installa dipendenze minime
 RUN apt-get update && \
-    apt-get install -y curl libevent-2.1-7 libutempter0 libncursesw6 && \
-    curl -L -o /usr/local/bin/tmate https://github.com/tmate-io/tmate/releases/download/2.4.0/tmate-static-linux-amd64 && \
-    chmod +x /usr/local/bin/tmate && \
+    apt-get install -y curl && \
+    curl -L -o /usr/local/bin/sshx https://github.com/moul/sshx/releases/download/v1.0.0/sshx_linux_amd64 && \
+    chmod +x /usr/local/bin/sshx && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Avvia tmate in modalità server
-CMD ["tmate", "-F"]
+# Avvia sshx (modifica secondo il tuo uso)
+CMD ["sshx"]
